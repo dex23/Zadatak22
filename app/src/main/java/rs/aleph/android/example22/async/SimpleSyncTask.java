@@ -20,7 +20,7 @@ import static rs.aleph.android.example22.tools.ReviewerTools.getConnectionType;
  * Treci parametar je povratna vrednost, tj sta ce metoda doInBackground
  * vratiti kao poratnu vrednost metodi onPostExecute
  */
-public class SimpleSyncTask extends AsyncTask<Integer, Void, Void>{
+public class SimpleSyncTask extends AsyncTask<Integer, Void, Integer>{
 
     private Context context;
     private Integer statusKonekcije;
@@ -42,7 +42,7 @@ public class SimpleSyncTask extends AsyncTask<Integer, Void, Void>{
      * Sav posao koji dugo traje izvrsavati unutar ove metode.
      */
     @Override
-    protected Void doInBackground(Integer... params) {
+    protected Integer doInBackground(Integer... params) {
         try {
             statusKonekcije = params[0];
             //simulacija posla koji se obavlja u pozadini i traje duze vreme
@@ -60,7 +60,7 @@ public class SimpleSyncTask extends AsyncTask<Integer, Void, Void>{
      * Ako je potrebno osloboditi resurse ili obrisati elemente koji vise ne trebaju.
      */
     @Override
-    protected void onPostExecute(Void products) {
+    protected void onPostExecute(Integer products) {
         Toast.makeText(context, "Sync done" + getConnectionType(statusKonekcije), Toast.LENGTH_SHORT).show();
     }
 }
