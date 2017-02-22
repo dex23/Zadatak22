@@ -32,14 +32,14 @@ public class SimpleService extends Service{
          * */
 //        int status = ReviewerTools.getConnectivityStatus(getApplicationContext());
 
-        int status = intent.getIntExtra("Konektiviti status", 0);
+        int status = intent.getExtras().getInt("STATUS");
 
         /**
          * Primer poziva asinhronog zadatka ako ima veze ka mrezi
          * npr. sinhronizacija mail-ova fotografija, muzike dokumenata isl.
          * */
         if(status == ReviewerTools.TYPE_WIFI){
-            new SimpleSyncTask(getApplicationContext()).execute();
+            new SimpleSyncTask(getApplicationContext()).execute(status);
         }
 
         /**

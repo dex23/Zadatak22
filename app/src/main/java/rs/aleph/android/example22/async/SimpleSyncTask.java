@@ -1,8 +1,12 @@
 package rs.aleph.android.example22.async;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import rs.aleph.android.example22.tools.ReviewerTools;
 
 import static rs.aleph.android.example22.tools.ReviewerTools.getConnectionType;
 
@@ -23,7 +27,7 @@ import static rs.aleph.android.example22.tools.ReviewerTools.getConnectionType;
 public class SimpleSyncTask extends AsyncTask<Integer, Void, Integer>{
 
     private Context context;
-    private Integer statusKonekcije;
+//    private Integer statusKonekcije;
 
     public SimpleSyncTask(Context context) {
         this.context = context;
@@ -44,7 +48,7 @@ public class SimpleSyncTask extends AsyncTask<Integer, Void, Integer>{
     @Override
     protected Integer doInBackground(Integer... params) {
         try {
-            statusKonekcije = params[0];
+//            statusKonekcije = params[0];
             //simulacija posla koji se obavlja u pozadini i traje duze vreme
             Thread.sleep(6000);
         } catch (InterruptedException e) {
@@ -53,14 +57,33 @@ public class SimpleSyncTask extends AsyncTask<Integer, Void, Integer>{
 
         return null;
     }
+    private void createNotification(String contentTitle, String contentText) {
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //Build the notification using Notification.Builder
+        Notification.Builder builder = new Notification.Builder(context)
+                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setAutoCancel(true)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText);
+
+
+        //Show the notification
+        mNotificationManager.notify(1, builder.build());
+    }
 
     /**
      *
      * Kada se posao koji se odvija u pozadini zavrsi, poziva se ova metoda
      * Ako je potrebno osloboditi resurse ili obrisati elemente koji vise ne trebaju.
      */
+
     @Override
-    protected void onPostExecute(Integer products) {
-        Toast.makeText(context, "Sync done" + getConnectionType(statusKonekcije), Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Integer type) {
+        String text = ReviewerTools.getConnectionType(type);
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+        //dodatni zadatak
+        createNotification("Termin 22 dodatni zadatak", text);
     }
 }

@@ -164,8 +164,11 @@ public class MainActivity extends AppCompatActivity implements OnProductSelected
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 Toast.makeText(MainActivity.this, "Sinhronizacija dugo traje koristiti servis. dobro :)",Toast.LENGTH_SHORT).show();
+
+                int status = ReviewerTools.getConnectivityStatus(getApplicationContext());
+
                 Intent intent = new Intent(MainActivity.this, SimpleService.class);
-                intent.putExtra("Konektiviti status", ReviewerTools.getConnectivityStatus(getApplicationContext()));
+                intent.putExtra("STATUS", status);
                 startService(intent);
                 break;
             case R.id.action_add:
